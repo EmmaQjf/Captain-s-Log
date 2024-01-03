@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require("express")
 const jsxEngine = require("jsx-view-engine")
 const mongoose = require("mongoose")
+const Log = require('./models/Log')
 
 const app = express()
 const PORT = process.env.PORT || 3000;
@@ -33,14 +34,37 @@ app.get('/logs', (req, res) => {
 //UPDATE
 
 //CREATE
-// app.post('/logs', async(req, res) => {
-//     if(req.)
-
-// })
+app.post('/logs', async(req, res) => {
+    if(req.body.shipIsBroken === "on"){
+        req.body.shipIsBroken = true
+    } else {
+        req.body.shipIsBroken = false
+    }
+    // try {
+        const createdLog = await Log.create(req.body);
+        res.redirect(`/logs/${createdLog._id}`)
+    // } catch (error) {
+    //     res.status(400).send({message: error.message})
+    // }
+        
+})
 
 //EDIT
 
 //SHOW
+
+app.get('/logs/:id', async(req, res) => {
+    try {
+        const foundLog = await Log.findOne({_id: req.params.id})
+        res.render('Show', {
+            log: foundLog
+        })
+
+    } catch(error) {
+        res.status(400).send({message: error.message})
+    }
+
+})
 
 app.listen(PORT, () => {
     console.log(`the port at ${PORT} is connected`)
