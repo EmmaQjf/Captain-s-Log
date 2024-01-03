@@ -23,9 +23,21 @@ app.engine('jsx', jsxEngine())
 
 
 //INDEX
+app.get('/logs',async(req, res)=> {
+    try {
+        const foundLogs = await Log.find({})
+        res.render('Index', {
+            logs: foundLogs
+        })
+
+    } catch(error) {
+        res.status(400).send({message: error.message})
+    }
+    
+})
 
 //NEW
-app.get('/logs', (req, res) => {
+app.get('/logs/new', (req, res) => {
     res.render('New')
 })
 
