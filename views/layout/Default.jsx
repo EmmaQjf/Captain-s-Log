@@ -5,17 +5,19 @@ class DefaultLayout extends React.Component {
         return(
             <html>
                 <head>
-                    <title>{this.props.title}</title>
+                    {/* <title>{this.props.title}</title> */}
                     <link rel="stylesheet" href="/css/app.css"/>    
                 </head>
                 <body>
-                    <h1>{this.props.title}</h1>
+                    {/* <h1>{this.props.title}</h1> */}
                     {this.props.children}
                 </body>
             </html>
         );
     }
 }
+
+//In React, the term props stands for properties, which refers to the properties of an object. This is because all elements created in React are JavaScript objects. 
 
 module.exports = DefaultLayout;
 // why put the / before the href path
