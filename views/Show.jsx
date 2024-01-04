@@ -13,6 +13,8 @@ function Show(props) {
           <form action={`/logs/${_id}?_method=DELETE`} method = "POST">
             <input type="submit" value = {`Delete the ${title}`} />
           </form>
+
+          <a href={`/logs/${_id}/edit`}><button>Edit the {title}</button></a>
         </div>
 
         

@@ -29,6 +29,7 @@ app.engine('jsx', jsxEngine())
 app.get('/logs',async(req, res)=> {
     try {
         const foundLogs = await Log.find({})
+
         res.render('Index', {
             logs: foundLogs
         })
@@ -59,6 +60,26 @@ app.delete('/logs/:id', async(req, res)=> {
 })
 
 //UPDATE
+app.put('/logs/:id', async(req, res)=> {
+    //forgot to do the checkbox change the value from on to true
+    if(req.body.shipIsBroken === "on"){
+        req.body.shipIsBroken = true
+    } else {
+        req.body.shipIsBroken = false
+    }
+    try {
+        await Log.findOneAndUpdate({_id: req.params.id},
+            //forget the syntax of the findoneandupdate
+            req.body, {new: true})
+        .then(() => {
+            //was not sure the correct structure of the ${req.params.id}
+            // be sure to use the backtick when use the ${}
+            res.redirect(`/logs/${req.params.id}`)
+      })
+    } catch(error) {
+        res.status(400).send({message: error.message})
+    }
+})
 
 //CREATE
 app.post('/logs', async(req, res) => {
@@ -77,6 +98,21 @@ app.post('/logs', async(req, res) => {
 })
 
 //EDIT
+
+app.get('/logs/:id/edit', async(req, res) => {
+    try {
+        const foundLog = await Log.findOne({_id: req.params.id})
+        //  res.send(foundLog)
+        res.render('Edit', {
+            log: foundLog
+        })
+
+    } catch(error) {
+        res.status(400).send({message: error.message})
+    }
+
+
+})
 
 //SHOW
 
