@@ -18,6 +18,7 @@ mongoose.connection.once('open', () => {
 // do not remember the syntax 
 app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'))
+app.use(express.static('public'));
 
 //set up view engine 
 app.set('view engine', 'jsx')

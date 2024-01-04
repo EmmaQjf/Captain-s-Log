@@ -1,6 +1,9 @@
 const React = require("react")
+const DefaultLayout = require("./layout/Default.jsx")
+
 function Index(props) {
     return (
+      <DefaultLayout>
        <div>
         <h1>Logs Index Page</h1>
         
@@ -17,8 +20,9 @@ function Index(props) {
         }
        </ul>
 
-       <a href = "/logs/new"><p>Create a log</p></a>
+       <a href = "/logs/new"><span>Create a log</span></a>
        </div>
+       </DefaultLayout>
     )
 }
 

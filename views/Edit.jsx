@@ -1,8 +1,10 @@
 const React = require("react")
+const DefaultLayout = require("./layout/Default.jsx")
 
 function Edit(props) {
     const {_id, title, entry, shipIsBroken} = props.log
     return (
+    <DefaultLayout>
      <div>
          <h1>Log Edit Page</h1>
         <form action={`/logs/${_id}?_method=PUT`} method="POST">
@@ -12,6 +14,7 @@ function Edit(props) {
             <input type="submit" value="Update Log"/>
         </form>
      </div>
+     </DefaultLayout>
     )
 }
 
