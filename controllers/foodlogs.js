@@ -1,15 +1,13 @@
-//The router's job is exactly that, to route the request to the requested controller/method while the controller will "control" and do the processing/generating response
-//In a modern framework a router defines a direct connection between a "kind" of possible requests and its processor
 const router = require('express').Router();
-const Log = require('../models/Log')
+const FoodLog = require('../models/FoodLog')
 
 //INDEX
 router.get('/',async(req, res)=> {
     try {
-        const foundLogs = await Log.find({})
+        const foundFoodLogs = await FoodLog.find({})
 
-        res.render('Index', {
-            logs: foundLogs
+        res.render('foodLog/foodIndex', {
+            logs: foundFoodLogs 
         })
 
     } catch(error) {
@@ -20,17 +18,17 @@ router.get('/',async(req, res)=> {
 
 //NEW
 router.get('/new', (req, res) => {
-    res.render('New')
+    res.render('foodLog/FoodNew')
 })
 
 //DELETE
 
 router.delete('/:id', async(req, res)=> {
     try {
-         await Log.findOneAndDelete({_id: req.params.id})
+         await FoodLog.findOneAndDelete({_id: req.params.id})
          //do not remember the syntax of then...
          .then(() => {
-            res.redirect("/logs")
+            res.redirect("/foodlogs")
          } )
     } catch(error) {
         res.status(400).send({message: error.message})
@@ -40,19 +38,19 @@ router.delete('/:id', async(req, res)=> {
 //UPDATE
 router.put('/:id', async(req, res)=> {
     //forgot to do the checkbox change the value from on to true
-    if(req.body.shipIsBroken === "on"){
-        req.body.shipIsBroken = true
+    if(req.body.foodIsFrozen === "on"){
+        req.body.foodIsFrozen = true
     } else {
-        req.body.shipIsBroken = false
+        req.body.foodIsFrozen = false
     }
     try {
-        await Log.findOneAndUpdate({_id: req.params.id},
+        await FoodLog.findOneAndUpdate({_id: req.params.id},
             //forget the syntax of the findoneandupdate
             req.body, {new: true})
         .then(() => {
             //was not sure the correct structure of the ${req.params.id}
             // be sure to use the backtick when use the ${}
-            res.redirect(`/logs/${req.params.id}`)
+            res.redirect(`/foodlogs/${req.params.id}`)
       })
     } catch(error) {
         res.status(400).send({message: error.message})
@@ -61,14 +59,14 @@ router.put('/:id', async(req, res)=> {
 
 //CREATE
 router.post('/', async(req, res) => {
-    if(req.body.shipIsBroken === "on"){
-        req.body.shipIsBroken = true
+    if(req.body.foodIsFrozen === "on"){
+        req.body.foodIsFrozen = true
     } else {
-        req.body.shipIsBroken = false
+        req.body.foodIsFrozen = false
     }
     // try {
-        const createdLog = await Log.create(req.body);
-        res.redirect(`/logs/${createdLog._id}`)
+        const createdFoodLog = await FoodLog.create(req.body);
+        res.redirect(`/foodlogs/${createdFoodLog._id}`)
     // } catch (error) {
     //     res.status(400).send({message: error.message})
     // }
@@ -79,10 +77,10 @@ router.post('/', async(req, res) => {
 
 router.get('/:id/edit', async(req, res) => {
     try {
-        const foundLog = await Log.findOne({_id: req.params.id})
+        const foundFoodLog = await FoodLog.findOne({_id: req.params.id})
         //  res.send(foundLog)
-        res.render('Edit', {
-            log: foundLog
+        res.render('foodLog/foodEdit', {
+            log: foundFoodLog
         })
 
     } catch(error) {
@@ -96,9 +94,9 @@ router.get('/:id/edit', async(req, res) => {
 
 router.get('/:id', async(req, res) => {
     try {
-        const foundLog = await Log.findOne({_id: req.params.id})
-        res.render('Show', {
-            log: foundLog
+        const foundFoodLog = await FoodLog.findOne({_id: req.params.id})
+        res.render('foodLog/foodShow', {
+            log: foundFoodLog
         })
 
     } catch(error) {

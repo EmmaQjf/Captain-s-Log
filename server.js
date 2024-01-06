@@ -21,7 +21,9 @@ app.use(methodOverride('_method'))
 app.use(express.static('public'));
 
 const LogsController = require('./controllers/logs')
+const FoodLogsController = require('./controllers/foodlogs')
 app.use('/logs',LogsController)
+app.use('/foodlogs',FoodLogsController)
 
 //set up view engine 
 app.set('view engine', 'jsx')
